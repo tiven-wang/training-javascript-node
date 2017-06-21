@@ -8,12 +8,12 @@
   },
   "author": "i.tiven.wang@gmail.com",
   "license": "MIT",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "body-parser": "^1.17.2",
     "cfenv": "^1.0.4",
     "express": "^4.15.3",
-    "mongodb": "^2.2.28"
+    "mongodb": "^2.2.28",
+    "mongoose": "^4.10.7"
   }
 }

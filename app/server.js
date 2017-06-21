@@ -14,6 +14,9 @@ oApp.use(bodyParser.json());
 
 oApp.use(express.static('public'));
 
+// connect to mongodb
+require('./db/mongo-connect.js')(oAppEnv);
+
 // api
 // require('./server/api/info/info.js')(oApp, oAppEnv);
 require('./api/messages.js')(oApp);
