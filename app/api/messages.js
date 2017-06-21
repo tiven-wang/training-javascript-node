@@ -1,5 +1,7 @@
 'use strict';
 
+var Promise = require("bluebird");
+
 module.exports = function (oApp) {
 
     let message = require('../db/models/message.js');
@@ -46,10 +48,8 @@ module.exports = function (oApp) {
     });
 
     oApp.post('/api/message', function (req, res) {
-      for(var i = 0; i < req.body.length; i++) {
-    		var event = req.body[i];
-
-    		new message({
+      Promise.reduce(req.body, function(total, event) {
+        return new message({
 	            id: event.id,
 	            createdTime: event.createdTime,
 	            eventType: event.eventType,
@@ -58,11 +58,16 @@ module.exports = function (oApp) {
 	            if (err) {
 	                return res.status(500).send('Error occurred: database error');
 	            }
-	            res.json({
-	                id: message.id
-	            });
-	        });
-    	}
+	        })
+          .then((message) => {
+            return total + 1;
+          });
+      }, 0).then(total => {
+          //Total number of messages
+          res.json({
+            total: total
+          });
+      });
     });
 
     oApp.delete('/api/message/:id', function (req, res) {
